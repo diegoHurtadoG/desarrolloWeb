@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Agregar Avistamiento</title>
+
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <!-- Extraido de https://codepen.io/amigaviole/pen/NQOpKM:  -->
+    <script type="text/javascript" src="menuRegionesYComunas.js"></script>
+    <script src="agregarValidator.js"></script>
+
+</head>
+<body>
+
+
+<!-- Cuando este haciendo el css, ponerle de estilo
+
+ #erroresusuario {
+    background-color: red;
+    color: white;
+    width: 25%;
+    margin-left: 32.5%;
+    font-size: 30px;
+    padding: 10px;
+    display: none;
+}
+
+ -->
+<div id="erroresusuario"></div>
+
+<div id="form">
+    <form id="formulario" method="post" action="" onsubmit="return validar()">
+        <!-- LUGAR  -->
+        <div class="datos">
+            <div class="instruccion">Region:</div>
+            <select id="regiones" name="region" required="required"></select>
+        </div>
+
+        <div class="datos">
+            <div class="instruccion">Comuna:</div>
+            <select id="comunas" name="comuna" required="required"></select>
+        </div>
+
+        <div class="datos">
+            <div class="instruccion">Sector:</div>
+            <input id="inputSector" type="text" name="sector" value="" maxlength="100"/>
+        </div>
+
+        <!-- CONTACTO  -->
+
+        <div class="datos">
+            <div class="instruccion">Nombre:</div>
+            <input id="inputNombre" type="text" name="nombre" value="" size="100" required="required" maxlength="200"/>
+        </div>
+
+        <div class="datos">
+            <div class="instruccion">Correo Electronico:</div>
+            <input id="inputEmail" type="email" name="email" value="" size="100" required="required"/>
+        </div>
+
+        <div class="datos">
+            <div class="instruccion">Numero de celular:</div>
+            <input id="inputCelular" type="tel" name="celular" value="" size="15"/>
+        </div>
+
+        <!-- INFORMACION  -->
+
+        <div class="datos">
+            <div class="instruccion">Dia y Hora:</div>
+            <input id="inputDHA" type="datetime-local" name="dia-hora-avistamiento" value="" size="20"
+                   required="required"/>
+        </div>
+
+        <div class="datos">
+            <div class="instruccion">Estado:</div>
+            <select id="inputTA" name="tipo-avistamiento" required="required">
+                <option value="No se">No se</option>
+                <option value="Insecto">Insecto</option>
+                <option value="Aracnido">Aracnido</option>
+                <option value="Miriapodo">Miriapodo</option>
+            </select>
+        </div>
+
+        <div class="datos">
+            <div class="instruccion">Estado:</div>
+            <select id="inputEA" name="estado-avistamiento" required="required">
+                <option value="vivo">Vivo</option>
+                <option value="no se">No se</option>
+                <option value="muerto">Muerto</option>
+            </select>
+        </div>
+
+        <div class="datos" id="divFotos">
+            <div class="instruccion">Fotos:</div>
+            <button id="agregaFoto" onclick="agregarFoto()">Agregar Foto</button>
+            <br>
+            <input id="inputFA" type="file" name="fotos-avistamiento" value=""/> <br>
+
+        </div>
+
+        <div class="entrada botones">
+
+            <button id="enviar" type="submit">Upload</button>
+
+        </div>
+
+    </form>
+</div>
+
+</body>
+</html>
