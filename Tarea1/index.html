@@ -3,22 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <title>Portada Bichometro</title>
+    <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
 
 <div class="titulo"><h1>Bienvenid@!</h1></div>
 
-<div class="opciones">
-    <ul>
-  <li><button id="informarAvistamientoIndex" onclick="location.href='agregarAvistamiento.html';">Nuevo Avistamiento</button></li>
-  <li><button id="verListadoAvistamientosIndex" onclick="location.href='listadoAvistamientos.html';">Ver Listado de Avistamientos</button></li>
-  <li><button id="verEstadisticasIndex" onclick="location.href='estadisticas.html';">Ver Estadisticas</button></li>
-</ul>
+<div>
+    <h5>DISCLAIMER: Vale decir que los graficos y las fotos son para reirse un poco.<br>No fueron por ahorrar tiempo
+        (probablemente
+        me demore mas que haciendolo un poco mas serio) ni con intenciones de burla <br>
+    He de admitir que la parte estetica esta medio mediocre, no se desde cuanto se considera suficiente, pero organize <br>
+    mal mi tiempo</h5>
+</div>
+
+<div>
+    <ul class="lista">
+        <li class="elemento">
+            <button id="informarAvistamientoIndex" class="boton" onclick="location.href='agregarAvistamiento.html';">Nuevo
+                Avistamiento
+            </button>
+        </li>
+        <li class="elemento">
+            <button id="verListadoAvistamientosIndex" class="boton" onclick="location.href='listadoAvistamientos.html';">Ver
+                Listado
+                de Avistamientos
+            </button>
+        </li>
+        <li class="elemento">
+            <button id="verEstadisticasIndex" class="boton" onclick="location.href='estadisticas.html';">Ver Estadisticas
+            </button>
+        </li>
+    </ul>
 </div>
 
 <div class="tablaIndex">
 
-    <table>
+    <table class="tablaInformacion">
         <tr>
             <th>Fecha Hora</th>
             <th>Comuna</th>
@@ -31,14 +52,16 @@
             <td>Puchuncavi</td>
             <td>Verduleria</td>
             <td>Insecto</td>
-            <td><img src="Fotos/FotosTablaIndex/AncientScarab.jpg" alt="Simply Easy Learning" width="320" height="240"></td>
+            <td><img src="Fotos/FotosTablaIndex/AncientScarab.jpg" alt="Simply Easy Learning" width="320" height="240">
+            </td>
         </tr>
         <tr>
             <td>2064-05-13 14:59</td>
             <td>Regimiento 4</td>
             <td>Auditorio Virtual</td>
             <td>Insecto</td>
-            <td><img src="Fotos/FotosTablaIndex/MechaInsect.jpg" alt="Simply Easy Learning" width="320" height="240"></td>
+            <td><img src="Fotos/FotosTablaIndex/MechaInsect.jpg" alt="Simply Easy Learning" width="320" height="240">
+            </td>
         </tr>
         <tr>
             <td>2021-04-16 12:54</td>

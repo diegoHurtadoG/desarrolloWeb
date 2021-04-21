@@ -3,25 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Listado Avistamientos</title>
-    <style>
 
-    </style>
-
-    <script type="text/javascript">
-
-    </script>
-
-
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="rowHandler.js"></script>
+    <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
-<div class="boton" id="informar">
+
+<div class="botonDiv" id="informar">
     <!-- Lleva al usuario a agregar avistamiento -->
-    <div>
-        <button id="informarAvistamiento" onclick="location.href='agregarAvistamiento.html';">Nuevo Avistamiento</button>
+    <div class="volver2">
+        <button id="informarAvistamiento" class="boton" onclick="location.href='agregarAvistamiento.html';">Nuevo Avistamiento</button>
+        <button id="volverAPortada" class="boton" onclick="location.href='index.html';">Volver a la portada</button>
     </div>
 </div>
-<div class="tabla" id="tabla">
-    <table>
+
+<div class="tabla" id="tablaDiv">
+    <table id="tablaAvistamientos" class="tablaInformacion">
         <tr>
             <th>Fecha Hora</th>
             <th>Comuna</th>
@@ -30,49 +28,53 @@
             <th>Total Avistamientos</th>
             <th>Total Fotos</th>
         </tr>
-        <tr>
+        <tr onclick="rowHandler(this)">
             <td>2001-04-16 13:37</td>
             <td>Ankrahmun</td>
             <td>Mother of Scarabs Lair</td>
             <td>Ferumbras</td>
-            <th>3</th>
-            <td><img src="Fotos/FotosTablaIndex/AncientScarab.jpg" alt="Simply Easy Learning" width="320" height="240"></td>
+            <td>3</td>
+            <td><img src="Fotos/FotosTablaIndex/AncientScarab.jpg" class="columnaImagen" alt="Foto descriptiva"
+                     width="320" height="240" onclick="event.stopPropagation();zoomear(this)"></td>
         </tr>
-        <tr>
-            <td>FechaHora1</td>
-            <td>Comuna1</td>
-            <td>Sector1</td>
-            <td>NombreContacto1</td>
-            <td>TotalAvistamientos1</td>
-            <td>TotalFotos1</td>
+        <tr onclick="rowHandler(this)">
+            <td>2064-05-13 14:59</td>
+            <td>Regimiento 4</td>
+            <td>Auditorio Virtual</td>
+            <td>Optimus Prime</td>
+            <td>1</td>
+            <td><img src="Fotos/FotosTablaIndex/MechaInsect.jpg" class="columnaImagen" alt="Foto descriptiva"
+                     width="320" height="240" onclick="event.stopPropagation();zoomear(this)"></td>
         </tr>
-        <tr>
-            <td>FechaHora1</td>
-            <td>Comuna1</td>
-            <td>Sector1</td>
-            <td>NombreContacto1</td>
-            <td>TotalAvistamientos1</td>
-            <td>TotalFotos1</td>
+        <tr onclick="rowHandler(this)">
+            <td>2021-04-16 12:54</td>
+            <td>Lo Barnechea</td>
+            <td>Mi casa</td>
+            <td>Diego Hurtado</td>
+            <td>2</td>
+            <td><img src="Fotos/FotosTablaIndex/Yo.jpg" class="columnaImagen" alt="Foto descriptiva" width="320"
+                     height="240" onclick="event.stopPropagation();zoomear(this)"></td>
         </tr>
-        <tr>
-            <td>FechaHora1</td>
-            <td>Comuna1</td>
-            <td>Sector1</td>
-            <td>NombreContacto1</td>
-            <td>TotalAvistamientos1</td>
-            <td>TotalFotos1</td>
+        <tr onclick="rowHandler(this)">
+            <td>2019-10-17 00:00</td>
+            <td>Via Lactea</td>
+            <td>Planeta tierra</td>
+            <td>Dr. Simi</td>
+            <td>60.000.000</td>
+            <td><img src="Fotos/FotosTablaIndex/Corona.jpg" class="columnaImagen" alt="Foto descriptiva" width="320"
+                     height="240" onclick="event.stopPropagation();zoomear(this)"></td>
         </tr>
-        <tr>
-            <td>FechaHora1</td>
-            <td>Comuna1</td>
-            <td>Sector1</td>
-            <td>NombreContacto1</td>
-            <td>TotalAvistamientos1</td>
-            <td>TotalFotos1</td>
+        <tr onclick="rowHandler(this)">
+            <td>(-13.800m)-00-00 00:00</td>
+            <td>Universo</td>
+            <td>Unico</td>
+            <td>Reina Isabel</td>
+            <td>1</td>
+            <td><img src="Fotos/FotosTablaIndex/bigBang.jpg" class="columnaImagen" alt="Foto descriptiva" width="320"
+                     height="240" onclick="event.stopPropagation();zoomear(this)"></td>
         </tr>
     </table>
 </div>
-
 
 </body>
 </html>
