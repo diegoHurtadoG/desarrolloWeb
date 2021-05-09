@@ -19,7 +19,7 @@
 <div>
     <!-- Body of page -->
     <h1>Agregar datos de un médico</h1>
-    <form id="myform" method="post" action="cgi-bin/save_doctor.py">
+    <form id="myform" method="post" action="cgi-bin/save_doctor.py" enctype="multipart/form-data">
       
       <!-- Label for nombre médico -->
       <br>
@@ -83,6 +83,12 @@
       <br>
       <input type="tel" id="celular-medico" name="celular-medico" maxlength="20" placeholder="Correo electrónico">
       <br> 
+      <br>
+
+      <br>
+      <label for="foto-medico" class="text-field">Archivo adjunto (*)</label>
+      <br>
+      <input type="file" id="foto-medico" name="foto-medico" accept="image/jpeg" >
       <br>
     
       <input type="submit" value="Crear datos del médico">

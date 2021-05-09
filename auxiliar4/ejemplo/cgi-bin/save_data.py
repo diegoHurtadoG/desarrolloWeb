@@ -17,16 +17,16 @@ class HackBoxDatabase:
         self.cursor = self.db.cursor()
 
     def save_data(self, data):
-        sql ='''
+        sql = '''
             INSERT INTO usuario (nombre, edad, comentario) 
             VALUES (%s, %s, %s)
         '''
-        self.cursor.execute(sql, data) # ejecuto la consulta
-        self.db.commit() # modifico la base de datos
+        self.cursor.execute(sql, data)  # ejecuto la consulta
+        self.db.commit()  # modifico la base de datos
 
     def get_all(self, tablename):
         sql = f"""
             SELECT * FROM {tablename}
         """
         self.cursor.execute(sql)
-        return self.cursor.fetchall() # retornamos la data
+        return self.cursor.fetchall()  # retornamos la data
