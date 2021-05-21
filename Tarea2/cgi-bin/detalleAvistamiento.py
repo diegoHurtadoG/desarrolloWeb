@@ -1,14 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Detalle</title>
-    <script src="../javascripts/agregarValidator.js"></script>
-    <link rel="stylesheet" href="/styles/estilos.css">
-</head>
-<body>
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
 
+print("Content-type: text\html\r\n\r\n")
 
+with open('htmls/template.html', 'r') as file:
+    s = file.read()
+
+    print(s.format('Detalle Avistamiento', '''
 <div class="caracteristicas">
     <ul class="lista" id="listaDetalles">
         <li class="elemento">
@@ -65,6 +63,4 @@
     <button id="volverAPortada" class="boton" onclick="location.href='index.html';">Volver a Portada</button>
 </div>
 
-
-</body>
-</html>
+    ''', ''))

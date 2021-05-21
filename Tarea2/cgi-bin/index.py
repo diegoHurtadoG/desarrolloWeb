@@ -11,7 +11,7 @@ print('Content-type: text/html\r\n\r\n')
 with open('../htmls/template.html', 'r') as file:
     s = file.read()
 
-    strPreTabla = """
+    strPreTabla = f'''
     <div class="titulo"><h1>Bienvenid@!</h1></div>
 
 <div>
@@ -36,7 +36,7 @@ with open('../htmls/template.html', 'r') as file:
         </li>
     </ul>
 </div>
-    """
+    '''
 
     tabla = f'''
 <div class="tablaIndex">
@@ -57,6 +57,7 @@ with open('../htmls/template.html', 'r') as file:
                 <td>{str(d[2])}</td>
                 <td>{str(d[3])}</td>
                 <td>{str(d[4])}</td>
+                <td>{str(d[5])}</td>
             </tr>
         '''
         tabla += row
