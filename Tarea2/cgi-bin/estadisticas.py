@@ -8,9 +8,7 @@ with open('htmls/template.html', 'r') as file:
 
     print(s.format('Estadisticas Avistamientos', """
     <div class="volver">
-    <!--
-    <button id="volverAPortada" class="boton" onclick="location.href='htmls/index.html';">Volver a la portada</button>
-    -->
+    <button id="volverAPortada" class="boton" onclick="location.href='cgi-bin/index.py';">Volver a la portada</button>
 </div>
 
 <div>

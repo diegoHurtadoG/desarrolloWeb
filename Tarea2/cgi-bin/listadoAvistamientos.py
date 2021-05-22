@@ -1,12 +1,12 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from save_data import HackBoxDatabase
+import db
 
 print("Content-type: text\html\r\n\r\n")
 
-hbdb = HackBoxDatabase.Doctor("localhost", "root", "admin", "ejercicio3")
-data = hbdb.get_all()
+hbdb = db.Avistamiento('127.0.0.1', 'root', "admin", "tarea2")
+data = hbdb.get_lista_avistamientos()
 
 with open('htmls/template.html', 'r') as file:
     s = file.read()
@@ -15,8 +15,8 @@ with open('htmls/template.html', 'r') as file:
     <div class="botonDiv" id="informar">
         <!-- Lleva al usuario a agregar avistamiento -->
         <div class="volver2">
-            <button id="informarAvistamiento" class="boton" onclick="location.href='agregarAvistamiento.html';">Nuevo Avistamiento</button>
-            <button id="volverAPortada" class="boton" onclick="location.href='index.html';">Volver a la portada</button>
+            <button id="informarAvistamiento" class="boton" onclick="location.href='cgi-bin/agregarAvistamiento.py';">Nuevo Avistamiento</button>
+            <button id="volverAPortada" class="boton" onclick="location.href='cgi-bin/index.py';">Volver a la portada</button>
         </div>
     </div>
     '''

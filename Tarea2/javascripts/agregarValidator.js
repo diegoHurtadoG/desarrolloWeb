@@ -33,7 +33,7 @@ function validar() {
     if (campoEmail.value.length === 0 || !regexEmail.test(campoEmail.value)) {
         errores.push("El email esta mal escrito.");
     }
-    if (campoCelular.value.length === 0 || !regexCelular.test(campoCelular.value)) {
+    if (campoCelular.value.length !== 0 && !regexCelular.test(campoCelular.value)) {
         errores.push("El celular no cumple con el formato '+569 12345678'");
     }
 

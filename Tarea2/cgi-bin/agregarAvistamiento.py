@@ -10,7 +10,7 @@ with open('htmls/template.html', 'r') as file:
 <div class="titulo"> Formulario</div>
 
 <div class="volver">
-    <button id="volverAPortada" class="boton" onclick="location.href='index.html';">Volver a la portada</button>
+    <button id="volverAPortada" class="boton" onclick="location.href='cgi-bin/index.py';">Volver a la portada</button>
 </div>
 
 <div id="erroresusuario"></div>
