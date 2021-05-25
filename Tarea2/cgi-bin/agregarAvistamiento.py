@@ -10,12 +10,12 @@ with open('htmls/template.html', 'r') as file:
 <div class="titulo"> Formulario</div>
 
 <div class="volver">
-    <button id="volverAPortada" class="boton" onclick="location.href='cgi-bin/index.py';">Volver a la portada</button>
+    <button id="volverAPortada" class="boton" onclick="location.href='index.py';">Volver a la portada</button>
 </div>
 
 <div id="erroresusuario"></div>
 <div id="form">
-    <form id="formulario" class="formulario" method="post" action="cgi-bin/guardar_avistamiento.py" enctype="multipart/form-data">
+    <form id="formulario" class="formulario" method="post" action="guardar_avistamiento.py" enctype="multipart/form-data">
         <!-- LUGAR  -->
         <div class="datos">
             <div class="instruccion">Region:</div>
@@ -60,17 +60,17 @@ with open('htmls/template.html', 'r') as file:
             <div class="datos informacionAvistamiento">
                 <div class="instruccion">Tipo:</div>
                 <select id="inputTA" name="tipo-avistamiento">
-                    <option value="No se">No se</option>
-                    <option value="Insecto">Insecto</option>
-                    <option value="Aracnido">Aracnido</option>
-                    <option value="Miriapodo">Miriapodo</option>
+                    <option value="no sé">No sé</option>
+                    <option value="insecto">Insecto</option>
+                    <option value="arácnido">Arácnido</option>
+                    <option value="miriápodo">Miriápodo</option>
                 </select>
             </div>
 
             <div class="datos informacionAvistamiento">
                 <div class="instruccion">Estado:</div>
                 <select id="inputEA" name="estado-avistamiento">
-                    <option value="no se">No se</option>
+                    <option value="no sé">No sé</option>
                     <option value="vivo">Vivo</option>
                     <option value="muerto">Muerto</option>
                 </select>
@@ -108,7 +108,7 @@ with open('htmls/template.html', 'r') as file:
 
     </form>
 </div>
-    '''))
+    ''', ''))
 
     #Agregar de ahi puede ser en template o aqui arriba las weas de validacion (scripts)
     #Si no funciona por Index puede ser por la tupla de 3

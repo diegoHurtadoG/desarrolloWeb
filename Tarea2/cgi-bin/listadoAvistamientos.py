@@ -15,8 +15,8 @@ with open('htmls/template.html', 'r') as file:
     <div class="botonDiv" id="informar">
         <!-- Lleva al usuario a agregar avistamiento -->
         <div class="volver2">
-            <button id="informarAvistamiento" class="boton" onclick="location.href='cgi-bin/agregarAvistamiento.py';">Nuevo Avistamiento</button>
-            <button id="volverAPortada" class="boton" onclick="location.href='cgi-bin/index.py';">Volver a la portada</button>
+            <button id="informarAvistamiento" class="boton" onclick="location.href='agregarAvistamiento.py';">Nuevo Avistamiento</button>
+            <button id="volverAPortada" class="boton" onclick="location.href='index.py';">Volver a la portada</button>
         </div>
     </div>
     '''
@@ -49,5 +49,5 @@ with open('htmls/template.html', 'r') as file:
 
     tabla += '</table>\n</div>'
 
-    print(s.format('Listado Avistamientos', preTabla + tabla))
+    print(s.format('Listado Avistamientos', preTabla + tabla, ''))
     #Si falla puede ser por la tupla de 3 elementos en el format.

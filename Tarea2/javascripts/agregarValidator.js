@@ -24,7 +24,7 @@ function validar() {
     if (campoComuna.value === "sin-comuna") {
         errores.push("Falta seleccionar la comuna.");
     }
-    if (campoSector.value.length > 100) {
+    if (campoSector.value !== '' && campoSector.value.length > 100) {
         errores.push("El nombre del sector no puede superar los 100 caracteres.");
     }
     if (campoNombre.value.length === 0 || campoNombre.value.length > 200) {
@@ -105,17 +105,17 @@ function agregarAvistamiento() {
         ' <div class="datos informacionAvistamiento">' +
         '    <div class="instruccion">Tipo:</div>' +
         inputTipo +
-        '      <option value="No se">No se</option>' +
-        '     <option value="Insecto">Insecto</option>' +
-        '     <option value="Aracnido">Aracnido</option>' +
-        '     <option value="Miriapodo">Miriapodo</option>' +
+        '     <option value="no sé">No sé</option>' +
+        '     <option value="insecto">Insecto</option>' +
+        '     <option value="arácnido">Arácnido</option>' +
+        '     <option value="miriápodo">Miriápodo</option>' +
         ' </select>' +
         ' </div>' +
         ' <div class="datos informacionAvistamiento">' +
         '     <div class="instruccion">Estado:</div>' +
         inputEstado +
+        '        <option value="no sé">No sé</option>' +
         '         <option value="vivo">Vivo</option>' +
-        '        <option value="no se">No se</option>' +
         '        <option value="muerto">Muerto</option>' +
         '    </select>' +
         ' </div>' +

@@ -8,7 +8,7 @@ data = hbdb.get_lista_portada()
 
 print('Content-type: text/html\r\n\r\n')
 
-with open('../htmls/template.html', 'r') as file:
+with open('htmls/template.html', 'r') as file:
     s = file.read()
 
     strPreTabla = f'''
@@ -17,20 +17,20 @@ with open('../htmls/template.html', 'r') as file:
 <div>
     <ul class="lista">
         <li class="elemento">
-            <button id="informarAvistamientoIndex" class="boton" onclick="location.href='cgi-bin/agregarAvistamiento.py';">
+            <button id="informarAvistamientoIndex" class="boton" onclick="location.href='agregarAvistamiento.py';">
                 Nuevo
                 Avistamiento
             </button>
         </li>
         <li class="elemento">
             <button id="verListadoAvistamientosIndex" class="boton"
-                    onclick="location.href='cgi-bin/listadoAvistamientos.py';">Ver
+                    onclick="location.href='listadoAvistamientos.py';">Ver
                 Listado
                 de Avistamientos
             </button>
         </li>
         <li class="elemento">
-            <button id="verEstadisticasIndex" class="boton" onclick="location.href='cgi-bin/estadisticas.py';">Ver
+            <button id="verEstadisticasIndex" class="boton" onclick="location.href='estadisticas.py';">Ver
                 Estadisticas
             </button>
         </li>
@@ -64,5 +64,5 @@ with open('../htmls/template.html', 'r') as file:
 
     tabla += '</table>\n</div>'
 
-    print(s.format('Portada Bichometro', strPreTabla + tabla))
+    print(s.format('Portada Bichometro', strPreTabla + tabla, ''))
     #Si no funciona por indexError, agregar un .'' en el format como en estadisticas.py

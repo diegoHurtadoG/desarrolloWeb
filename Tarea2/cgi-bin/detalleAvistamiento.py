@@ -58,9 +58,9 @@ with open('htmls/template.html', 'r') as file:
 </div>
 
 <div class="botones">
-    <button id="volverAListado" class="boton" onclick="location.href='cgi-bin/listadoAvistamientos.py';">Volver a Lista
+    <button id="volverAListado" class="boton" onclick="location.href='listadoAvistamientos.py';">Volver a Lista
     </button>
-    <button id="volverAPortada" class="boton" onclick="location.href='cgi-bin/index.py';">Volver a Portada</button>
+    <button id="volverAPortada" class="boton" onclick="location.href='index.py';">Volver a Portada</button>
 </div>
 
     ''', ''))
