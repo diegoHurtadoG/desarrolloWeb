@@ -6,13 +6,14 @@ import db
 hbdb = db.Avistamiento('127.0.0.1', 'root', "admin", "tarea2")
 data = hbdb.get_lista_portada()
 
-print("Content-Type: text/html; charset=utf-8\r\n\r\n")
+#print("Content-Type: text/html; charset=utf-8\r\n\r\n")
+print("Content-Type: text/html\r\n\r\n")
 
-with open('htmls/template.html', 'r') as file:
+with open('htmls/template.html', 'r', encoding='utf-8') as file:
     s = file.read()
 
     strPreTabla = f'''
-    <div class="titulo"><h1>Bienvenid@!</h1></div>
+    <div class="titulo"><h1>Bíenvenid@!</h1></div>
 
 <div>
     <ul class="lista">

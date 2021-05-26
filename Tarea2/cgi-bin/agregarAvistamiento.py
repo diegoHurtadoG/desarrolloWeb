@@ -2,8 +2,9 @@
 # -*- coding: utf-8 -*-
 
 print("Content-Type: text/html; charset=utf-8\r\n\r\n")
+#print("Content-Type: text/html\r\n\r\n")
 
-with open('htmls/template.html', 'r') as file:
+with open('htmls/template.html', 'r', encoding='utf-8') as file:
     s = file.read()
 
     print(s.format('Agregar Avistamiento', '''
@@ -64,17 +65,17 @@ with open('htmls/template.html', 'r') as file:
             <div class="datos informacionAvistamiento">
                 <div class="instruccion">Tipo:</div>
                 <select id="inputTA" name="tipo-avistamiento">
-                    <option value="no sé">No se</option>
+                    <option value="no sé">No sé</option>
                     <option value="insecto">Insecto</option>
-                    <option value="arácnido">Aracnido</option>
-                    <option value="miriápodo">Miriapodo</option>
+                    <option value="arácnido">Arácnido</option>
+                    <option value="miriápodo">Miriápodo</option>
                 </select>
             </div>
 
             <div class="datos informacionAvistamiento">
                 <div class="instruccion">Estado:</div>
                 <select id="inputEA" name="estado-avistamiento">
-                    <option value="no sé">No se</option>
+                    <option value="no sé">No sé</option>
                     <option value="vivo">Vivo</option>
                     <option value="muerto">Muerto</option>
                 </select>

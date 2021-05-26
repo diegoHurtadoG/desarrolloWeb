@@ -1,5 +1,5 @@
 function rowHandler(element){
-    window.open(src='detalleAvistamiento.html', "_self");
+    window.open(src='detalleAvistamiento.py', "_self");
 }
 
 function zoomear(imagen) {

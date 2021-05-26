@@ -1,14 +1,20 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-print("Content-Type: text/html; charset=utf-8\r\n\r\n")
+print("Content-Type: text/html\r\n\r\n")
 
-with open('htmls/template.html', 'r') as file:
+with open('htmls/template.html', 'r', encoding='utf-8') as file:
     s = file.read()
 
     print(s.format('Detalle Avistamiento', '''
 <div class="caracteristicas">
     <ul class="lista" id="listaDetalles">
+    <h5> Vale decir que en mi archivo db.py esta la consulta que retorna toda la info necesaria. <br>
+    Esta info logre obtenerla desde la lista, pero me falto la parte de poder mandarla a esta visualizacion <br>
+    Tengo la idea de hacer un JSON, mandarlo al handler de las filas, y que este se lo mande al .py que <br>
+    despliega esta pagina, pero me falto tiempo para hacerlo porque tuve un problema que me duro <br>
+    como 4 dias y al final nunca le encontre solucion y tuve que hacer todo el submit denuevo :( <br>
+    Perdon por tan poco, me organize mal en la semana de receso</h5>
         <li class="elemento">
             Contacto: <br>
             <ul>

@@ -295,3 +295,18 @@ class Avistamiento:
                         """
         self.cursor.execute(sql, (id_det,))
         return self.cursor.fetchall()  # retornamos la data
+
+    def get_info_av(self, id_av):
+        sql = f"""
+                            SELECT AV.nombre, AV.email, AV.celular, R.nombre, C.nombre, AV.sector, DA.tipo, DA.estado, DA.dia_hora, F.ruta_archivo
+                            FROM avistamiento AV, detalle_avistamiento DA, foto F, comuna C, region R
+                            WHERE AV.id = %s
+                            AND AV.comuna_id = C.id
+                            AND C.region_id = R.id
+                            AND AV.id = DA.avistamiento_id
+                            AND F.detalle_avistamiento_id = DA.id
+                """
+        self.cursor.execute(sql, (id_av,))
+        data = self.cursor.fetchall()  # Tupla de la forma ( (av.nombre, av.email, ...,) ( av.nombre, av.email , ..., ))
+
+        return data

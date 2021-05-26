@@ -3,13 +3,14 @@
 
 import db
 
-print("Content-Type: text/html; charset=utf-8\r\n\r\n")
+
 
 hbdb = db.Avistamiento('127.0.0.1', 'root', "admin", "tarea2")
 data = hbdb.get_lista_avistamientos()
 
+print("Content-Type: text/html; charset=utf-8\r\n\r\n")
 
-with open('htmls/template.html', 'r') as file:
+with open('htmls/template.html', 'r', encoding='utf-8') as file:
     s = file.read()
 
     preTabla = f'''
@@ -37,7 +38,7 @@ with open('htmls/template.html', 'r') as file:
 
     for d in data:
         row = f'''
-            <tr>
+            <tr onclick="rowHandler(this)"> <!-- Aqui podria pasarle como segundo parametro un self.get_info_av(d[0]) -->
                 <td>{str(d[1])}</td>
                 <td>{str(d[2])}</td>
                 <td>{str(d[3])}</td>
@@ -51,4 +52,3 @@ with open('htmls/template.html', 'r') as file:
     tabla += '</table>\n</div>'
 
     print(s.format('Listado Avistamientos', preTabla + tabla, ''))
-    # Si falla puede ser por la tupla de 3 elementos en el format.

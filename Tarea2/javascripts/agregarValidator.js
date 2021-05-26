@@ -106,10 +106,10 @@ function agregarAvistamiento() {
         ' <div class="datos informacionAvistamiento">' +
         '    <div class="instruccion">Tipo:</div>' +
         inputTipo +
-        '     <option value="no sé">No se</option>' +
+        '     <option value="no sé">No sé</option>' +
         '     <option value="insecto">Insecto</option>' +
-        '     <option value="arácnido">Aracnido</option>' +
-        '     <option value="miriápodo">Miriapodo</option>' +
+        '     <option value="arácnido">Arácnido</option>' +
+        '     <option value="miriápodo">Miriápodo</option>' +
         ' </select>' +
         ' </div>' +
         ' <div class="datos informacionAvistamiento">' +
