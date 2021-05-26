@@ -22,7 +22,7 @@ class CreateDB:
         fp.close()
 
     def create_insert(self, path): #Este funciona para crear las tablas y agregar regiones y comunas
-        with open(path, 'r') as sql_file:
+        with open(path, 'r', encoding='utf-8') as sql_file:
             result_iterator = self.cursor.execute(sql_file.read(), multi=True)
             for res in result_iterator:
                 print("Running query: ", res)  # Will print out a short representation of the query

@@ -11,7 +11,7 @@ function validar() {
     let campoEmail = document.getElementById("inputEmail");
     let regexEmail = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     let campoCelular = document.getElementById("inputCelular");
-    let regexCelular = /^[+]*[(]{0,1}[0-9]{3}[)]{0,1}[\s/0-9]{9}$/i;
+    let regexCelular = /^(\+?56)?(\s?)(0?9)(\s?)[9876543]\d{7}$/;
     let campoDHA = document.getElementById("inputDHA");
     let campoTA = document.getElementById("inputTA");
     let campoEA = document.getElementById("inputEA");
@@ -56,7 +56,6 @@ function validar() {
 
 
     if (errores.length > 0) {
-        console.log(errores);
         contenedor.innerHTML += "<ul>";
         for (let i = 0; i < errores.length; i++) {
             contenedor.innerHTML += "<li>" + errores[i] + "</li>";
@@ -70,19 +69,20 @@ function validar() {
     }
 }
 
-let fotos = 1;
-
 function agregarFoto(index) {
+
+    let fotos = parseInt(document.getElementById('cantidadFotos' + index).value);
 
     if (fotos > 4) {
         alert("Solo se puede un maximo de 5 fotos.");
         return;
     }
     // La variable newPhoto la hice para que cada foto agregada tenga un id nuevo
-    let newPhoto = '<input id=' + 'inputFA' + fotos + ' type="file" name="fotos-avistamiento" value=""/> <br>';
+    let newPhoto = '<input id=' + 'inputFA' + fotos + ' type="file" name="fotos-avistamiento"/> <br>';
     let c = document.getElementById("divFotos" + index);
+    document.getElementById('cantidadFotos' + index).value = fotos + 1;
     c.innerHTML += newPhoto;
-    fotos += 1;
+
 
 }
 
@@ -94,8 +94,9 @@ function agregarAvistamiento() {
     let inputTipo = '<select id=' + 'inputTA' + totalAvistamientos + ' name="tipo-avistamiento" required="required">';
     let inputEstado = '<select id=' + 'inputEA' + totalAvistamientos + ' name="estado-avistamiento" required="required">';
     let idDivFotos = '<div class="datos informacionAvistamiento" id=' + 'divFotos' + totalAvistamientos + ' >';
-    let botonAgregaFoto = '<button id=' + 'agregaFoto' + totalAvistamientos + ' onclick=' + 'agregarFoto(' + totalAvistamientos + ') + >Agregar Foto</button>';
-    let inputFoto = '<input id=' + 'inputFA' + totalAvistamientos + ' type="file" name="fotos-avistamiento" value=""/> <br>';
+    let botonAgregaFoto = '<button id=' + 'agregaFoto' + totalAvistamientos + ' onclick=' + 'agregarFoto(' + totalAvistamientos + ') ' + 'class="boton" >Agregar Foto</button>';
+    let cantidadFotos = '<input id=' + 'cantidadFotos' + totalAvistamientos + ' type="hidden" name="cantidad-fotos-avistamiento" value="1"/>';
+    let inputFoto = '<input id=' + 'inputFA' + totalAvistamientos + ' type="file" name="fotos-avistamiento"/> <br>';
     lugar.innerHTML +=
         '<div class="divInformacionAvistamiento">' +
         ' <div class="datos informacionAvistamiento">' +
@@ -105,16 +106,16 @@ function agregarAvistamiento() {
         ' <div class="datos informacionAvistamiento">' +
         '    <div class="instruccion">Tipo:</div>' +
         inputTipo +
-        '     <option value="no sé">No sé</option>' +
+        '     <option value="no sé">No se</option>' +
         '     <option value="insecto">Insecto</option>' +
-        '     <option value="arácnido">Arácnido</option>' +
-        '     <option value="miriápodo">Miriápodo</option>' +
+        '     <option value="arácnido">Aracnido</option>' +
+        '     <option value="miriápodo">Miriapodo</option>' +
         ' </select>' +
         ' </div>' +
         ' <div class="datos informacionAvistamiento">' +
         '     <div class="instruccion">Estado:</div>' +
         inputEstado +
-        '        <option value="no sé">No sé</option>' +
+        '        <option value="no sé">No se</option>' +
         '         <option value="vivo">Vivo</option>' +
         '        <option value="muerto">Muerto</option>' +
         '    </select>' +
@@ -122,6 +123,7 @@ function agregarAvistamiento() {
         idDivFotos +
         '     <div class="instruccion">Fotos:</div>' +
         botonAgregaFoto +
+        cantidadFotos +
         '   <br>' +
         inputFoto +
         ' </div>' +
@@ -130,16 +132,40 @@ function agregarAvistamiento() {
     totalAvistamientos += 1;
 }
 
-function pedirConfirmacion(){
-    if(validar()){
+function pedirConfirmacion() {
+    if (validar()) {
         let container = document.getElementById('botonesInvisibles');
-        container.style.visibility="visible";
-        container.style.display="block";
+        container.style.visibility = "visible";
+        container.style.display = "block";
     }
 }
 
-function esconderConfirmacion(){
+function esconderConfirmacion() {
     let container = document.getElementById('botonesInvisibles');
-    container.style.visibility="hidden";
-    container.style.display="none";
+    container.style.visibility = "hidden";
+    container.style.display = "none";
+}
+
+function receive_json() {
+    let contenedor = document.getElementById("erroresusuario");
+    contenedor.innerHTML = ""
+
+    var form = document.getElementById("formulario");
+    var formData = new FormData(form);
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', "guardar_avistamiento.py")
+    xhr.send(formData);
+    xhr.onload = function (data) {
+        resp = data.currentTarget.responseText; // responseText es lo que aparece como response en webdev tools
+        console.log(resp)
+        if(resp.includes('Subido sin errores')) {
+            window.location.href = 'listadoAvistamientos.py'
+        }
+        else{ // Si entra aqui tiene errores
+            contenedor.innerHTML += "<ul>";
+            contenedor.innerHTML += resp;
+            contenedor.innerHTML += "</ul>";
+            contenedor.style.display = "block";
+        }
+    }
 }

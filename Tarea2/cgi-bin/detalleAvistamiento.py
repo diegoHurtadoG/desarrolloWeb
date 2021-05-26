@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-print("Content-type: text\html\r\n\r\n")
+print("Content-Type: text/html; charset=utf-8\r\n\r\n")
 
 with open('htmls/template.html', 'r') as file:
     s = file.read()

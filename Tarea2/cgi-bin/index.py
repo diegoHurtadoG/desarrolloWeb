@@ -6,7 +6,7 @@ import db
 hbdb = db.Avistamiento('127.0.0.1', 'root', "admin", "tarea2")
 data = hbdb.get_lista_portada()
 
-print('Content-type: text/html\r\n\r\n')
+print("Content-Type: text/html; charset=utf-8\r\n\r\n")
 
 with open('htmls/template.html', 'r') as file:
     s = file.read()

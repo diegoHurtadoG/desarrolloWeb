@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-print("Content-type: text\html\r\n\r\n")
+print("Content-Type: text/html; charset=utf-8\r\n\r\n")
 
 with open('htmls/template.html', 'r') as file:
     s = file.read()
@@ -60,17 +60,17 @@ with open('htmls/template.html', 'r') as file:
             <div class="datos informacionAvistamiento">
                 <div class="instruccion">Tipo:</div>
                 <select id="inputTA" name="tipo-avistamiento">
-                    <option value="no sé">No sé</option>
+                    <option value="no sé">No se</option>
                     <option value="insecto">Insecto</option>
-                    <option value="arácnido">Arácnido</option>
-                    <option value="miriápodo">Miriápodo</option>
+                    <option value="arácnido">Aracnido</option>
+                    <option value="miriápodo">Miriapodo</option>
                 </select>
             </div>
 
             <div class="datos informacionAvistamiento">
                 <div class="instruccion">Estado:</div>
                 <select id="inputEA" name="estado-avistamiento">
-                    <option value="no sé">No sé</option>
+                    <option value="no sé">No se</option>
                     <option value="vivo">Vivo</option>
                     <option value="muerto">Muerto</option>
                 </select>
@@ -79,6 +79,7 @@ with open('htmls/template.html', 'r') as file:
             <div class="datos informacionAvistamiento" id="divFotos">
                 <div class="instruccion">Fotos:</div>
                 <button id="agregaFoto" class="boton" onclick="agregarFoto('')">Agregar Foto</button>
+                <input type="hidden" id="cantidadFotos" name="cantidad-fotos-avistamiento" value="1"> <!-- A este le sumo 1 en cada agregarFoto('') -->
                 <br>
                 <input id="inputFA" type="file" name="fotos-avistamiento"/> <br>
 
@@ -101,7 +102,8 @@ with open('htmls/template.html', 'r') as file:
             <br>
 
             <div class="botonInvisible" id="botonesInvisibles">
-                <button id="confirmarBoton" class="boton" type="submit">Si, Estoy seguro que quiero confirmar</button>
+               <!-- <button id="confirmarBoton" class="boton" type="submit">Si, Estoy seguro que quiero confirmar</button> -->
+                <button id="confimarBoton" class="boton" type="button" onclick="receive_json()">Si, confirmar</button>
                 <button id="rechazarBoton" class="boton" type="button" onclick="esconderConfirmacion()">No estoy seguro, volver</button>
             </div>
         </div>

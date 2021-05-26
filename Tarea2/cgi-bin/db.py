@@ -5,6 +5,7 @@ import hashlib
 import os
 import filetype
 import time
+import re
 
 MAX_FILE_SIZE = 1000 * 1000 * 10  # b -> kb -> mb -> 10mb
 
@@ -34,147 +35,238 @@ class Avistamiento:
         self.cursor = self.db.cursor()
         '''
     data = (
-    form['region'].value, form['comuna'].value, form['sector'].value,
-    form['nombre'].value, form['email'].value, form['celular'],
-    form['dia-hora-avistamiento'], form['tipo-avistamiento'], form['estado-avistamiento'], form['fotos-avistamiento']
-)
+        form['region'].value, form['comuna'].value, form['sector'].value,
+        form['nombre'].value, form['email'].value, form['celular'].value,
+        form.getlist('dia-hora-avistamiento'), form.getlist('tipo-avistamiento'), form.getlist('estado-avistamiento'),
+        form['fotos-avistamiento'], # Ver bien si los archivos los llamo con getlist o con form[''], sin el .value (o con, revisar ejercicio)
+        form.getlist('cantidad-fotos-avistamiento')
+    )
         '''
+
+    # Tengo el numero de foto que estoy validando
+    # Tengo una lista con la cantidad de fotos por avistamiento
+    def indexar_foto(self, num, lista):
+        for idx, e in enumerate(lista):
+            if num - int(e) <= 0:
+                return idx
+            else:
+                num -= int(e)
+        return 0  # No deberia llegar aqui nunca
+
+    def last_insert_id(self):
+        sql = "SELECT LAST_INSERT_ID()"
+        self.cursor.execute(sql)
+        return self.cursor.fetchall()[0][0]
 
     def save_avistamiento(self, data):
         error_list = []
+        regexEmail = '^(([^<>()[\]\., ;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$'
+        regexCelular = '^(\+?56)?(\s?)(0?9)(\s?)[9876543]\d{7}$'
+        try:
 
-        ############ VALIDACIONES INPUTS FACILES ##############
-        region = data[0]
-        comuna = data[1]
-        sector = data[2]
-        nombre = data[3]
-        email = data[4]
-        celular = data[5]
+            ############ VALIDACIONES INPUTS FACILES ##############
+            region = data[0]
+            comuna = data[1]
+            sector = data[2]
+            nombre = data[3]
+            email = data[4]
+            celular = data[5]
 
-        if region == "sin-region":  # Se tendra que validar tambien que la region existe en la bdd
-            error_list.append('La region no es valida')
-
-        if comuna == "sin-comuna":
-            error_list.append('La comuna no es valida')
-
-        # Vamos a obtener altiro el id comuna
-        sql = '''
-                    SELECT id FROM comuna
-                    WHERE nombre LIKE %s
-        '''
-
-        self.cursor.execute(sql, ('%' + comuna + '%',))
-        id_comuna = self.cursor.fetchall()[0][0]  # fetchall() retorna una lista de tuplas con las rows de la consulta
-
-        if sector != "" and len(sector) > 100:
-            error_list.append('El sector supera cantidad de caracteres')
-
-        if nombre == "" or len(nombre) > 200:
-            error_list.append('Nombre no existe o es muy largo')
-
-        if email == "":  # Validar con regex aqui
-            error_list.append('Email no existe o no cumple con formato')
-
-        if celular != "" and False:  # Validar con regex aqui, quiza cuando no se envia dato, el valor default no es ""
-            error_list.append('Celular no cumple formato')
-
-        sql = '''
-                    INSERT INTO avistamiento (comuna_id, dia_hora, sector, nombre, email, celular) 
-                    VALUES (%s, %s, %s, %s, %s, %s)
-                '''
-
-        # En la tabla avistamiento, va la fecha en que se sube a la bdd, en detalle avistamiento va la fecha del detalle
-        fecha_ahora_formato = time.strftime('%Y-%m-%d %H:%M')
-
-        self.cursor.execute(sql,
-                            (id_comuna, fecha_ahora_formato, sector, nombre, email, celular))  # ejecuto la consulta
-        self.db.commit()  # obtengo id
-
-        id_avistamiento = self.cursor.lastrowid
-
-        # Horario, tipo, estado y fotos se trabajan como listas, pues son los que se pueden agregar
-
-        id_detalles = []
-
-        horario_list = data[6]
-        tipo_list = data[7]
-        estado_list = data[8]
-
-        for idx, h in enumerate(horario_list):
-            if h == '':
-                error_list.append('El horario numero ' + str(idx) + ' no es valido o no puede ser vacio.')
-
-        for idx, t in enumerate(tipo_list):
-            if t == '':
-                error_list.append('El tipo numero ' + str(idx) + ' no es valido o no puede ser vacio.')
-
-        for idx, e in enumerate(estado_list):
-            if e == '':
-                error_list.append('El estado numero ' + str(idx) + ' no es valido o no puede ser vacio.')
-
-        # Voy a abusar de que las 3 listas tienen el mismo largo
-        for i in range(len(horario_list)):
+            # Esta consulta valida que region este en la bdd
             sql = '''
-                        INSERT INTO detalle_avistamiento (dia_hora, tipo, estado, avistamiento_id) 
-                        VALUES (%s, %s, %s, %s)
+                        SELECT count(id) FROM region
+                        WHERE nombre LIKE %s
+                    '''
+            self.cursor.execute(sql, ('%' + region + '%',))
+            buff = self.cursor.fetchall()[0][0]
+            if region == "sin-region" or buff != 1:  # Se tendra que validar tambien que la region existe en la bdd
+                error_list.append('La region no es valida')
+
+            # Esta consulta valida que comuna este en la bdd
+            sql = '''
+                        SELECT count(id) FROM comuna
+                        WHERE nombre LIKE %s
                             '''
+            self.cursor.execute(sql, ('%' + comuna + '%',))
+            buff = self.cursor.fetchall()[0][0]
+            if comuna == "sin-comuna" or buff != 1:
+                error_list.append('La comuna no es valida')
+
+            # Vamos a obtener altiro el id comuna
+            sql = '''
+                        SELECT id FROM comuna
+                        WHERE nombre LIKE %s
+            '''
+
+            self.cursor.execute(sql, ('%' + comuna + '%',))
+            id_comuna = self.cursor.fetchall()[0][0]  # fetchall() retorna una lista de tuplas con las rows de la consulta
+
+            if sector != "" and len(sector) > 100:
+                error_list.append('El sector supera cantidad de caracteres')
+
+            if nombre == "" or len(nombre) > 200:
+                error_list.append('Nombre no existe o es muy largo')
+
+            if email == "" or not re.search(regexEmail, email):  # Validar con regex aqui
+                error_list.append('Email no existe o no cumple con formato')
+
+            if celular != "" and not re.search(regexCelular,
+                                               celular):  # Validar con regex aqui, quiza cuando no se envia dato, el valor default no es ""
+                error_list.append('Celular no cumple formato')
+
+            sql = '''
+                        INSERT INTO avistamiento (comuna_id, dia_hora, sector, nombre, email, celular) 
+                        VALUES (%s, %s, %s, %s, %s, %s)
+                    '''
+
+            # En la tabla avistamiento, va la fecha en que se sube a la bdd, en detalle avistamiento va la fecha del detalle
+            fecha_ahora_formato = time.strftime('%Y-%m-%d %H:%M')
+
             self.cursor.execute(sql,
-                                (horario_list[i], tipo_list[i], estado_list[i], id_avistamiento))  # ejecuto la consulta
-            self.db.commit()  # obtengo id
+                                (id_comuna, fecha_ahora_formato, sector, nombre, email, celular))  # ejecuto la consulta
 
-            id_detalles.append(self.cursor.lastrowid)
+            id_avistamiento = self.last_insert_id()
 
-        ####################### EN TEORIA, de aqui para arriba:
-        # Ya tengo la info validada (menos fotos)
-        # Ya tengo agregado a tabla avistamiento
-        # Ya tengo agregado a detalle_avistamiento
-        # Los ids de cada detalle los guarde en id_detalles
+            ############# VALIDACION CON LISTAS
+            ############# Horario, tipo, estado y fotos se trabajan como listas, pues son los que se pueden agregar
+            id_detalles = []
 
-        ############ VALIDACIONES FOTOS ##############
-        fileobj = data[9]  # Este problema es el mismo que voy a tener despues con que es solo 1 foto de 1 avistamiento
-        filename = fileobj.filename
+            horario_list = data[6]
+            tipo_list = data[7]
+            estado_list = data[8]
 
-        if not filename:
-            print("El archivo no se subio correctamente")
+            for idx, h in enumerate(horario_list):
+                if h == '':
+                    error_list.append('El horario numero ' + str(idx) + ' no es valido o no puede ser vacio.')
 
-        # Veamos que no sea mas grande de lo aceptado
-        size = os.fstat(fileobj.file.fileno()).st_size
-        if size > MAX_FILE_SIZE:
-            print("El archivo supera lo aceptado (igual se subio)")
+            for idx, t in enumerate(tipo_list):
+                if t == '':
+                    error_list.append('El tipo numero ' + str(idx) + ' no es valido o no puede ser vacio.')
 
-        # calculamos cuantos elementos existen y actualizamos el hash
-        sql = "SELECT COUNT(id) FROM foto"
-        self.cursor.execute(sql)
-        total = self.cursor.fetchall()[0][0] + 1  # peligroso || ESTA LINEA ME PUEDE SERVIR PARA COMUNAS Y REGIONES
-        hash_archivo = str(total) + hashlib.sha256(filename.encode()).hexdigest()[0:30]
+            for idx, e in enumerate(estado_list):
+                if e == '':
+                    error_list.append('El estado numero ' + str(idx) + ' no es valido o no puede ser vacio.')
 
-        # guardar el archivo
-        file_path = './Fotos/Avistamientos/' + hash_archivo + ".jpg"
-        open(file_path, 'wb').write(fileobj.file.read())
+            # Voy a abusar de que las 3 listas tienen el mismo largo
+            for i in range(len(horario_list)):
+                sql = '''
+                            INSERT INTO detalle_avistamiento (dia_hora, tipo, estado, avistamiento_id) 
+                            VALUES (%s, %s, %s, %s)
+                                '''
+                self.cursor.execute(sql,
+                                    (horario_list[i], tipo_list[i], estado_list[i], id_avistamiento))  # ejecuto la consulta
+                id_detalles.append(self.last_insert_id())
 
-        # verificamos el tipo, si no es valido lo borramos de la db
-        tipo = filetype.guess(file_path)
-        if tipo.mime != 'image/jpeg':
-            os.remove(file_path)
-            print("El archivo se elimino por ser un tipo no valido")
+            ####################### EN TEORIA, de aqui para arriba:
+            # Ya tengo la info validada (menos fotos)
+            # Ya tengo agregado a tabla avistamiento
+            # Ya tengo agregado a detalle_avistamiento
+            # Los ids de cada detalle los guarde en id_detalles
 
-        sql = '''
-                    INSERT INTO foto (ruta_archivo, nombre_archivo, detalle_avistamiento_id) 
-                    VALUES (%s, %s, %s)
-                '''
-        self.cursor.execute(sql, (file_path, filename, id_detalles[0]))
-        # El id_detalles[0] lo hice para test, pero deberia ir insertando cada foto con su detalle
-        self.db.commit()  # obtengo id
+            ############ VALIDACIONES FOTOS ##############
+            cantidad_fotos_avistamiento = data[10]  # Esto tiene una lista de ints con cuantos avistamientos tiene cada av
 
+            fileobj_list = data[9]
+            if type(fileobj_list) != list:
+                fileobj_list = [fileobj_list]
+
+            numero_foto = 1
+            for fileobj in fileobj_list:
+                filename = fileobj.filename
+
+                if not filename:
+                    print("El archivo no se subio correctamente")
+
+                # Veamos que no sea mas grande de lo aceptado
+                size = os.fstat(fileobj.file.fileno()).st_size
+                if size > MAX_FILE_SIZE:
+                    print("El archivo supera lo aceptado (igual se subio)")
+
+                # calculamos cuantos elementos existen y actualizamos el hash
+                sql = "SELECT COUNT(id) FROM foto"
+                self.cursor.execute(sql)
+                total = self.cursor.fetchall()[0][0] + 1  # peligroso || ESTA LINEA ME PUEDE SERVIR PARA COMUNAS Y REGIONES
+                hash_archivo = str(total) + hashlib.sha256(filename.encode()).hexdigest()[0:30]
+
+                # guardar el archivo
+                file_path = './Fotos/Avistamientos/' + hash_archivo + ".jpg"
+                open(file_path, 'wb').write(fileobj.file.read())
+
+                # verificamos el tipo, si no es valido lo borramos de la db
+                tipo = filetype.guess(file_path)
+                if not re.search("^image/", tipo.mime):
+                    os.remove(file_path)
+                    print("El archivo se elimino por ser un tipo no valido")
+
+                sql = '''
+                            INSERT INTO foto (ruta_archivo, nombre_archivo, detalle_avistamiento_id) 
+                            VALUES (%s, %s, %s)
+                        '''
+                self.cursor.execute(sql, (
+                file_path, hash_archivo + '.jpg', id_detalles[self.indexar_foto(numero_foto, cantidad_fotos_avistamiento)]))
+                numero_foto += 1
+
+            ####################### EN TEORIA, de aqui para arriba:
+            # Ya tengo la info validada (menos fotos)
+            # Ya tengo agregado a tabla avistamiento
+            # Ya tengo agregado a detalle_avistamiento
+            # Los ids de cada detalle los guarde en id_detalles
+            # Ya valide fotos multiples
+            # Asocie cada foto con su id
+
+            if len(error_list) > 0:
+                print('Lista errores: ', error_list)
+                self.db.rollback()  # Con esto saco los execute
+                return error_list
+            else:
+                self.db.commit()
+                print("Subido sin errores")
+                return True
+        except:
+            for error in error_list:
+                print("<li>" + error + '</li>')
+            print('<li> Revisar las fotos (Minimo 1 por avistamiento y algun formato de imagen), no necesariamente estan mal </li>')
 
     def get_lista_avistamientos(self):
         sql = f"""
-                    SELECT avistamiento.id, avistamiento.dia_hora, comuna.nombre, avistamiento.sector, avistamiento.nombre, avistamiento.id, avistamiento.id
+                    SELECT avistamiento.id, avistamiento.dia_hora, comuna.nombre, avistamiento.sector, avistamiento.nombre
                     FROM avistamiento
                     INNER JOIN comuna ON comuna.id = avistamiento.comuna_id
                 """
         self.cursor.execute(sql)
-        return self.cursor.fetchall()  # retornamos la data
+        data = self.cursor.fetchall()  # retornamos la data
+
+        return data
+
+    # No esta funcionando
+    def get_total_avistamientos(self, id_av):
+        sql = f"""
+                    SELECT count(id) FROM detalle_avistamiento
+                    WHERE avistamiento_id = %s
+                        """
+        self.cursor.execute(sql, (id_av,))
+        data = self.cursor.fetchall()[0][0]  # retornamos la data
+
+        return data
+
+    # Me falta conseguir alguna forma de obtener id_det
+    def get_total_fotos(self, id_av):
+        sql = f'''
+                    SELECT id, dia_hora, tipo, estado, avistamiento_id 
+                    FROM detalle_avistamiento
+                    WHERE avistamiento_id = %s
+                '''
+        self.cursor.execute(sql, (id_av,))
+        buff = self.cursor.fetchall()[0][0]
+
+        sql = f"""
+                    SELECT count(id) FROM foto
+                    WHERE detalle_avistamiento_id = %s
+                    """
+        self.cursor.execute(sql, (buff,))
+        data = self.cursor.fetchall()[0][0]  # retornamos la data
+
+        return data
 
     def get_lista_portada(self):
         sql = f"""

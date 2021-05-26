@@ -3,15 +3,16 @@
 
 import db
 
-print("Content-type: text\html\r\n\r\n")
+print("Content-Type: text/html; charset=utf-8\r\n\r\n")
 
 hbdb = db.Avistamiento('127.0.0.1', 'root', "admin", "tarea2")
 data = hbdb.get_lista_avistamientos()
 
+
 with open('htmls/template.html', 'r') as file:
     s = file.read()
 
-    preTabla=f'''
+    preTabla = f'''
     <div class="botonDiv" id="informar">
         <!-- Lleva al usuario a agregar avistamiento -->
         <div class="volver2">
@@ -41,8 +42,8 @@ with open('htmls/template.html', 'r') as file:
                 <td>{str(d[2])}</td>
                 <td>{str(d[3])}</td>
                 <td>{str(d[4])}</td>
-                <td>{str(d[5])}</td>
-                <td>{str(d[6])}</td>
+                <td>{hbdb.get_total_avistamientos(d[0])}</td>
+                <td>{hbdb.get_total_fotos(d[0])}</td>
             </tr>
         '''
         tabla += row
@@ -50,4 +51,4 @@ with open('htmls/template.html', 'r') as file:
     tabla += '</table>\n</div>'
 
     print(s.format('Listado Avistamientos', preTabla + tabla, ''))
-    #Si falla puede ser por la tupla de 3 elementos en el format.
+    # Si falla puede ser por la tupla de 3 elementos en el format.
