@@ -9,6 +9,8 @@ hbdb = db.Avistamiento('127.0.0.1', 'root', "admin", "tarea2")
 data = hbdb.get_lista_avistamientos()
 
 print("Content-Type: text/html; charset=utf-8\r\n\r\n")
+utf8stdout = open(1, 'w', encoding='utf-8', closefd=False)
+
 
 with open('htmls/template.html', 'r', encoding='utf-8') as file:
     s = file.read()
@@ -51,4 +53,4 @@ with open('htmls/template.html', 'r', encoding='utf-8') as file:
 
     tabla += '</table>\n</div>'
 
-    print(s.format('Listado Avistamientos', preTabla + tabla, ''))
+    print(s.format('Listado Avistamientos', preTabla + tabla, ''),file=utf8stdout)

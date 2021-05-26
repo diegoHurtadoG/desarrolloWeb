@@ -6,8 +6,8 @@ import db
 hbdb = db.Avistamiento('127.0.0.1', 'root', "admin", "tarea2")
 data = hbdb.get_lista_portada()
 
-#print("Content-Type: text/html; charset=utf-8\r\n\r\n")
-print("Content-Type: text/html\r\n\r\n")
+print("Content-Type: text/html; charset=utf-8\r\n\r\n")
+utf8stdout = open(1, 'w', encoding='utf-8', closefd=False)
 
 with open('htmls/template.html', 'r', encoding='utf-8') as file:
     s = file.read()
@@ -72,5 +72,5 @@ with open('htmls/template.html', 'r', encoding='utf-8') as file:
 
     tabla += '</table>\n</div>'
 
-    print(s.format('Portada Bichometro', strPreTabla + tabla, ''))
+    print(s.format('Portada Bichometro', strPreTabla + tabla, ''), file=utf8stdout)
     #Si no funciona por indexError, agregar un .'' en el format como en estadisticas.py

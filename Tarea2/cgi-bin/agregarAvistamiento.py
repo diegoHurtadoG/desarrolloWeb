@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 print("Content-Type: text/html; charset=utf-8\r\n\r\n")
-#print("Content-Type: text/html\r\n\r\n")
+utf8stdout = open(1, 'w', encoding='utf-8', closefd=False)
 
 with open('htmls/template.html', 'r', encoding='utf-8') as file:
     s = file.read()
@@ -115,7 +115,7 @@ with open('htmls/template.html', 'r', encoding='utf-8') as file:
 
     </form>
 </div>
-    ''', ''))
+    ''', ''), file=utf8stdout)
 
     #Agregar de ahi puede ser en template o aqui arriba las weas de validacion (scripts)
     #Si no funciona por Index puede ser por la tupla de 3

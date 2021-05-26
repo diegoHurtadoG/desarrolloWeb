@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 print("Content-Type: text/html\r\n\r\n")
+utf8stdout = open(1, 'w', encoding='utf-8', closefd=False)
 
 with open('htmls/template.html', 'r', encoding='utf-8') as file:
     s = file.read()
@@ -69,4 +70,4 @@ with open('htmls/template.html', 'r', encoding='utf-8') as file:
     <button id="volverAPortada" class="boton" onclick="location.href='index.py';">Volver a Portada</button>
 </div>
 
-    ''', ''))
+    ''', ''), file=utf8stdout)

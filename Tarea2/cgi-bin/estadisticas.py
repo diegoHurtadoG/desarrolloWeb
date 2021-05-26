@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 print('Content-type: text/html\r\n\r\n')
-
+utf8stdout = open(1, 'w', encoding='utf-8', closefd=False)
 with open('htmls/template.html', 'r') as file:
     s = file.read()
 
@@ -42,5 +42,5 @@ with open('htmls/template.html', 'r') as file:
         </li>
     </ul>
 </div>
-    """,''))
+    """,''),file=utf8stdout)
     #Ese ,'' es porque no se por que el template me tomaba la tupla del template con 3 elementos

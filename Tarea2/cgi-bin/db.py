@@ -148,6 +148,7 @@ class Avistamiento:
                 if e == '':
                     error_list.append('El estado numero ' + str(idx) + ' no es valido o no puede ser vacio.')
 
+            print(tipo_list)
             # Voy a abusar de que las 3 listas tienen el mismo largo
             for i in range(len(horario_list)):
                 sql = '''
