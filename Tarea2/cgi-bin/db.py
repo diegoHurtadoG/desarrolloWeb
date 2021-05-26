@@ -99,7 +99,8 @@ class Avistamiento:
             '''
 
             self.cursor.execute(sql, ('%' + comuna + '%',))
-            id_comuna = self.cursor.fetchall()[0][0]  # fetchall() retorna una lista de tuplas con las rows de la consulta
+            id_comuna = self.cursor.fetchall()[0][
+                0]  # fetchall() retorna una lista de tuplas con las rows de la consulta
 
             if sector != "" and len(sector) > 100:
                 error_list.append('El sector supera cantidad de caracteres')
@@ -154,7 +155,8 @@ class Avistamiento:
                             VALUES (%s, %s, %s, %s)
                                 '''
                 self.cursor.execute(sql,
-                                    (horario_list[i], tipo_list[i], estado_list[i], id_avistamiento))  # ejecuto la consulta
+                                    (horario_list[i], tipo_list[i], estado_list[i],
+                                     id_avistamiento))  # ejecuto la consulta
                 id_detalles.append(self.last_insert_id())
 
             ####################### EN TEORIA, de aqui para arriba:
@@ -164,7 +166,8 @@ class Avistamiento:
             # Los ids de cada detalle los guarde en id_detalles
 
             ############ VALIDACIONES FOTOS ##############
-            cantidad_fotos_avistamiento = data[10]  # Esto tiene una lista de ints con cuantos avistamientos tiene cada av
+            cantidad_fotos_avistamiento = data[
+                10]  # Esto tiene una lista de ints con cuantos avistamientos tiene cada av
 
             fileobj_list = data[9]
             if type(fileobj_list) != list:
@@ -185,7 +188,8 @@ class Avistamiento:
                 # calculamos cuantos elementos existen y actualizamos el hash
                 sql = "SELECT COUNT(id) FROM foto"
                 self.cursor.execute(sql)
-                total = self.cursor.fetchall()[0][0] + 1  # peligroso || ESTA LINEA ME PUEDE SERVIR PARA COMUNAS Y REGIONES
+                total = self.cursor.fetchall()[0][
+                            0] + 1  # peligroso || ESTA LINEA ME PUEDE SERVIR PARA COMUNAS Y REGIONES
                 hash_archivo = str(total) + hashlib.sha256(filename.encode()).hexdigest()[0:30]
 
                 # guardar el archivo
@@ -203,7 +207,8 @@ class Avistamiento:
                             VALUES (%s, %s, %s)
                         '''
                 self.cursor.execute(sql, (
-                file_path, hash_archivo + '.jpg', id_detalles[self.indexar_foto(numero_foto, cantidad_fotos_avistamiento)]))
+                    file_path, hash_archivo + '.jpg',
+                    id_detalles[self.indexar_foto(numero_foto, cantidad_fotos_avistamiento)]))
                 numero_foto += 1
 
             ####################### EN TEORIA, de aqui para arriba:
@@ -225,7 +230,8 @@ class Avistamiento:
         except:
             for error in error_list:
                 print("<li>" + error + '</li>')
-            print('<li> Revisar las fotos (Minimo 1 por avistamiento y algun formato de imagen), no necesariamente estan mal </li>')
+            print(
+                '<li> Revisar las fotos (Minimo 1 por avistamiento y algun formato de imagen), no necesariamente estan mal </li>')
 
     def get_lista_avistamientos(self):
         sql = f"""
@@ -251,30 +257,41 @@ class Avistamiento:
 
     # Me falta conseguir alguna forma de obtener id_det
     def get_total_fotos(self, id_av):
+        num_fotos = 0
         sql = f'''
-                    SELECT id, dia_hora, tipo, estado, avistamiento_id 
+                    SELECT id
                     FROM detalle_avistamiento
                     WHERE avistamiento_id = %s
                 '''
         self.cursor.execute(sql, (id_av,))
-        buff = self.cursor.fetchall()[0][0]
+        buff = self.cursor.fetchall()  # Deberia retornar una tupla con los id_detalle de cada detalle del avistamiento
 
-        sql = f"""
-                    SELECT count(id) FROM foto
-                    WHERE detalle_avistamiento_id = %s
-                    """
-        self.cursor.execute(sql, (buff,))
-        data = self.cursor.fetchall()[0][0]  # retornamos la data
+        for b in buff:
+            sql = f"""
+                        SELECT count(id) FROM foto
+                        WHERE detalle_avistamiento_id = %s
+                        """
+            self.cursor.execute(sql, (b[0],))
+            num_fotos += self.cursor.fetchall()[0][0]  # retornamos la data
 
-        return data
+        return num_fotos
 
     def get_lista_portada(self):
         sql = f"""
-                            SELECT DA.dia_hora, CO.nombre, AV.sector, DA.tipo 
+                            SELECT DA.dia_hora, CO.nombre, AV.sector, DA.tipo, DA.id
                             FROM avistamiento AV, detalle_avistamiento DA, comuna CO 
                             WHERE DA.avistamiento_id = AV.id 
                             AND AV.comuna_id=CO.id 
                             ORDER BY DA.dia_hora DESC LIMIT 5
                         """
         self.cursor.execute(sql)
+        return self.cursor.fetchall()  # retornamos la data
+
+    def get_fotos_portada(self, id_det):
+        sql = f"""
+                            SELECT ruta_archivo
+                            FROM foto
+                            WHERE detalle_avistamiento_id = %s
+                        """
+        self.cursor.execute(sql, (id_det,))
         return self.cursor.fetchall()  # retornamos la data

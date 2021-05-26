@@ -159,7 +159,7 @@ function receive_json() {
         resp = data.currentTarget.responseText; // responseText es lo que aparece como response en webdev tools
         console.log(resp)
         if(resp.includes('Subido sin errores')) {
-            window.location.href = 'listadoAvistamientos.py'
+            window.location.href = 'index.py'
         }
         else{ // Si entra aqui tiene errores
             contenedor.innerHTML += "<ul>";

@@ -17,6 +17,10 @@ with open('htmls/template.html', 'r') as file:
 <div id="form">
     <form id="formulario" class="formulario" method="post" action="guardar_avistamiento.py" enctype="multipart/form-data">
         <!-- LUGAR  -->
+        <div class = "datos">
+        <h4>**Por ahora se cae si uno agrega un campo de foto y no le pone una foto, no se si alcanze a arreglarlo 
+        para cuando la persona lea esto**</h4>
+        </div>
         <div class="datos">
             <div class="instruccion">Region:</div>
             <select id="regiones" name="region"></select>

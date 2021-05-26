@@ -51,13 +51,20 @@ with open('htmls/template.html', 'r') as file:
 '''
 
     for d in data:
+        paths_list = hbdb.get_fotos_portada(d[4])
+        buff = ''
+        for p in paths_list:
+            p = str(p) # ('./Fotos/Avistamientos/8ecd2d532cb99989ad2c5e857912670.jpg',)
+            p = '.' + p[2:len(p)-3] # ../Fotos/Avistamientos/8ecd2d532cb99989ad2c5e857912670.jpg
+            buff += '<img src="' + p + '" alt="Foto Avistamiento" width="320" height="240">'
+            # CUANDO CAMBIE A ANAKENA AQUI PROBABLEMENTE TIRE PROBLEMAS DE PATH
         row = f'''
             <tr>
                 <td>{str(d[0])}</td>
                 <td>{str(d[1])}</td>
                 <td>{str(d[2])}</td>
                 <td>{str(d[3])}</td>
-                <!-- Aqui faltan las fotos -->
+                <td>{buff}</td>
             </tr>
         '''
         tabla += row
