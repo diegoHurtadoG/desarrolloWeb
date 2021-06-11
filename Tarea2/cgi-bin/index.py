@@ -3,13 +3,13 @@
 
 import db
 
-hbdb = db.Avistamiento('127.0.0.1', 'root', "admin", "tarea2")
+hbdb = db.Avistamiento('localhost', 'cc500221_u', "sellusplac", "cc500221_db")
 data = hbdb.get_lista_portada()
 
 print("Content-Type: text/html; charset=utf-8\r\n\r\n")
 utf8stdout = open(1, 'w', encoding='utf-8', closefd=False)
 
-with open('htmls/template.html', 'r', encoding='utf-8') as file:
+with open('../htmls/template.html', 'r', encoding='utf-8') as file:
     s = file.read()
 
     strPreTabla = f'''
@@ -18,20 +18,20 @@ with open('htmls/template.html', 'r', encoding='utf-8') as file:
 <div>
     <ul class="lista">
         <li class="elemento">
-            <button id="informarAvistamientoIndex" class="boton" onclick="location.href='agregarAvistamiento.py';">
+            <button id="informarAvistamientoIndex" class="boton" onclick="location.href='./agregarAvistamiento.py';">
                 Nuevo
                 Avistamiento
             </button>
         </li>
         <li class="elemento">
             <button id="verListadoAvistamientosIndex" class="boton"
-                    onclick="location.href='listadoAvistamientos.py';">Ver
+                    onclick="location.href='./listadoAvistamientos.py';">Ver
                 Listado
                 de Avistamientos
             </button>
         </li>
         <li class="elemento">
-            <button id="verEstadisticasIndex" class="boton" onclick="location.href='estadisticas.py';">Ver
+            <button id="verEstadisticasIndex" class="boton" onclick="location.href='./estadisticas.py';">Ver
                 Estadisticas
             </button>
         </li>
@@ -56,7 +56,7 @@ with open('htmls/template.html', 'r', encoding='utf-8') as file:
         buff = ''
         for p in paths_list:
             p = str(p) # ('./Fotos/Avistamientos/8ecd2d532cb99989ad2c5e857912670.jpg',)
-            p = '.' + p[2:len(p)-3] # ../Fotos/Avistamientos/8ecd2d532cb99989ad2c5e857912670.jpg
+            p = p[2:len(p)-3] # ../Fotos/Avistamientos/8ecd2d532cb99989ad2c5e857912670.jpg
             buff += '<img src="' + p + '" alt="Foto Avistamiento" width="320" height="240">'
             # CUANDO CAMBIE A ANAKENA AQUI PROBABLEMENTE TIRE PROBLEMAS DE PATH
         row = f'''

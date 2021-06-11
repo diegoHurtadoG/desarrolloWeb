@@ -4,19 +4,19 @@
 print("Content-Type: text/html; charset=utf-8\r\n\r\n")
 utf8stdout = open(1, 'w', encoding='utf-8', closefd=False)
 
-with open('htmls/template.html', 'r', encoding='utf-8') as file:
+with open('../htmls/template.html', 'r', encoding='utf-8') as file:
     s = file.read()
 
     print(s.format('Agregar Avistamiento', '''
 <div class="titulo"> Formulario</div>
 
 <div class="volver">
-    <button id="volverAPortada" class="boton" onclick="location.href='index.py';">Volver a la portada</button>
+    <button id="volverAPortada" class="boton" onclick="location.href='./index.py';">Volver a la portada</button>
 </div>
 
 <div id="erroresusuario"></div>
 <div id="form">
-    <form id="formulario" class="formulario" method="post" action="guardar_avistamiento.py" enctype="multipart/form-data">
+    <form id="formulario" class="formulario" method="post" action="./guardar_avistamiento.py" enctype="multipart/form-data">
         <!-- LUGAR  -->
         <div class = "datos">
         <h4>**Por ahora se cae si uno agrega un campo de foto y no le pone una foto, no se si alcanze a arreglarlo 

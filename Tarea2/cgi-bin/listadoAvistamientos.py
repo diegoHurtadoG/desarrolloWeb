@@ -3,24 +3,21 @@
 
 import db
 
-
-
-hbdb = db.Avistamiento('127.0.0.1', 'root', "admin", "tarea2")
+hbdb = db.Avistamiento('localhost', 'cc500221_u', "sellusplac", "cc500221_db")
 data = hbdb.get_lista_avistamientos()
 
 print("Content-Type: text/html; charset=utf-8\r\n\r\n")
 utf8stdout = open(1, 'w', encoding='utf-8', closefd=False)
 
-
-with open('htmls/template.html', 'r', encoding='utf-8') as file:
+with open('../htmls/template.html', 'r', encoding='utf-8') as file:
     s = file.read()
 
     preTabla = f'''
     <div class="botonDiv" id="informar">
         <!-- Lleva al usuario a agregar avistamiento -->
         <div class="volver2">
-            <button id="informarAvistamiento" class="boton" onclick="location.href='agregarAvistamiento.py';">Nuevo Avistamiento</button>
-            <button id="volverAPortada" class="boton" onclick="location.href='index.py';">Volver a la portada</button>
+            <button id="informarAvistamiento" class="boton" onclick="location.href='./agregarAvistamiento.py';">Nuevo Avistamiento</button>
+            <button id="volverAPortada" class="boton" onclick="location.href='./index.py';">Volver a la portada</button>
         </div>
     </div>
     '''
@@ -53,4 +50,4 @@ with open('htmls/template.html', 'r', encoding='utf-8') as file:
 
     tabla += '</table>\n</div>'
 
-    print(s.format('Listado Avistamientos', preTabla + tabla, ''),file=utf8stdout)
+    print(s.format('Listado Avistamientos', preTabla + tabla, ''), file=utf8stdout)

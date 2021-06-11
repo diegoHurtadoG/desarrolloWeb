@@ -194,7 +194,7 @@ class Avistamiento:
                 hash_archivo = str(total) + hashlib.sha256(filename.encode()).hexdigest()[0:30]
 
                 # guardar el archivo
-                file_path = './Fotos/Avistamientos/' + hash_archivo + ".jpg"
+                file_path = '../Fotos/Avistamientos/' + hash_archivo + ".jpg"
                 open(file_path, 'wb').write(fileobj.file.read())
 
                 # verificamos el tipo, si no es valido lo borramos de la db
@@ -228,10 +228,11 @@ class Avistamiento:
                 self.db.commit()
                 print("Subido sin errores")
                 return True
-        except:
+        except Exception as e:
             for error in error_list:
                 print("<li>" + error + '</li>')
             print(
+                '<li> ' + str(e) + '</li>' +
                 '<li> Revisar las fotos (Minimo 1 por avistamiento y algun formato de imagen), no necesariamente estan mal </li>')
 
     def get_lista_avistamientos(self):

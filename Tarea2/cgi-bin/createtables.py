@@ -47,7 +47,7 @@ class CreateDB:
         print("Datos ingresados")
 
 
-db_creator = CreateDB('127.0.0.1', 'root', "admin", "tarea2")
+db_creator = CreateDB('localhost', 'cc500221_u', "sellusplac", "cc500221_db")
 
 
 db_creator.create_insert('../sql/total.sql')

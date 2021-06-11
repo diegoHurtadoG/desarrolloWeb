@@ -3,12 +3,13 @@
 
 print('Content-type: text/html\r\n\r\n')
 utf8stdout = open(1, 'w', encoding='utf-8', closefd=False)
-with open('htmls/template.html', 'r') as file:
+
+with open('../htmls/template.html', 'r') as file:
     s = file.read()
 
     print(s.format('Estadisticas Avistamientos', """
     <div class="volver">
-    <button id="volverAPortada" class="boton" onclick="location.href='index.py';">Volver a la portada</button>
+    <button id="volverAPortada" class="boton" onclick="location.href='./index.py';">Volver a la portada</button>
 </div>
 
 <div>

@@ -1,0 +1,106 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
+    sans-serif, Apple Color Emoji, Segoe UI Emoji;
+    margin: 0 !important;
+}
+
+.titulo {
+    font-size: 30px;
+    width: 100%;
+    text-align: center;
+}
+
+input, select {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid black;
+    width: 30%;
+}
+
+th {
+    background-color: darkgrey;
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+
+#erroresusuario {
+    background-color: red;
+    border-radius: 10%;
+    border: double;
+    color: white;
+    width: 40%;
+    font-size: 15px;
+    padding: 10px;
+    display: none;
+    margin: auto;
+}
+
+.lista {
+    width: 100%;
+    text-align: left;
+    font-size: 20px;
+}
+
+
+.tablaInformacion {
+    padding: 15px;
+    text-align: center;
+    margin:auto;
+}
+
+.boton {
+    font-size: 15px;
+    border-style: double;
+}
+
+.elemento {
+    padding: 5px;
+}
+
+.grafico {
+margin: auto;
+}
+
+.tituloGrafico {
+    font-weight: bold;
+}
+
+.instruccion {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.formulario {
+    width: 70%;
+    background-color: #d7d7d7;
+    border-radius: 30px;
+    padding: 10px;
+    margin-left: 15%;
+    margin-top: 30px;
+    box-shadow: #adadad30 0 0 9px 2px;
+    text-align: center;
+}
+
+.volver{
+    text-align: center;
+    font-size: 20px;
+    margin-top: 3%;
+}
+
+.volver2{
+    text-align: center;
+    font-size: 40px;
+}
+
+.botonInvisible{
+    visibility: hidden;
+    display: none;
+    background-color: blue;
+    width: 40%;
+    padding: 10px;
+    margin: auto;
+}

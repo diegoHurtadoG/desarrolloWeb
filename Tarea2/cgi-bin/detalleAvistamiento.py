@@ -4,7 +4,7 @@
 print("Content-Type: text/html\r\n\r\n")
 utf8stdout = open(1, 'w', encoding='utf-8', closefd=False)
 
-with open('htmls/template.html', 'r', encoding='utf-8') as file:
+with open('../htmls/template.html', 'r', encoding='utf-8') as file:
     s = file.read()
 
     print(s.format('Detalle Avistamiento', '''
@@ -65,9 +65,9 @@ with open('htmls/template.html', 'r', encoding='utf-8') as file:
 </div>
 
 <div class="botones">
-    <button id="volverAListado" class="boton" onclick="location.href='listadoAvistamientos.py';">Volver a Lista
+    <button id="volverAListado" class="boton" onclick="location.href='./listadoAvistamientos.py';">Volver a Lista
     </button>
-    <button id="volverAPortada" class="boton" onclick="location.href='index.py';">Volver a Portada</button>
+    <button id="volverAPortada" class="boton" onclick="location.href='./index.py';">Volver a Portada</button>
 </div>
 
     ''', ''), file=utf8stdout)

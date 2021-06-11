@@ -9,7 +9,7 @@ import db
 print("Content-Type: text/html; charset=utf-8\r\n\r\n")
 
 form = cgi.FieldStorage()
-avdb = db.Avistamiento('127.0.0.1', 'root', "admin", "tarea2")
+avdb = db.Avistamiento('localhost', 'cc500221_u', "sellusplac", "cc500221_db")
 
 # Aqui hay documentacion de como manejar el fieldStorage del cgi y obtener los valores
 # https://docs.python.org/3/library/cgi.html
