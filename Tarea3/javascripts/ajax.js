@@ -3,16 +3,8 @@ function loadGraficos() {
     xhr.open('POST', '../cgi-bin/estadisticas-graficos.py');
     xhr.timeout = 10000;
     xhr.onload = function (data) {
-        let div = document.getElementById("main")
-        //div.innerHTML += data.currentTarget.responseText
-        //console.log(data.currentTarget.responseText); // No imprime pero en webdev tools, response del .py, se ve lo que da
-        // Aqui si puedo hacer por ejemplo:
-        // let ejemplo = document.getElementById("estadistica1"); // Siendo estadistica1 un id que se agrega en linea 7
         let response = data.currentTarget.responseText.replaceAll("\'", "\"");
         let responseJSON = JSON.parse(response); // [[[2, '26-5-2021'], [1, '05-6-2021']], [[2, 'arácnido'], [1, 'miriápodo']], [[2, 'vivo', '5'], [1, 'vivo', '6']]]
-        //div.innerHTML += responseJSON[0]; // Esto es [[2, '26-5-2021'], [1, '05-6-2021']], lo pasa sin parentesis
-        //div.innerHTML += responseJSON[0][0]; // Esto seria [2, '26-5-2021'], lo pasa sin parentesis
-        //div.innerHTML += responseJSON[0][0][0]; // Bueno y esto es 2
 
         // GRAFICO 1
         let data_graf_1 = responseJSON[0];
@@ -26,8 +18,8 @@ function loadGraficos() {
 
         $.plot($("#grafico1"), [graf_1_info],
             {
-                xaxis: {ticks: graf_1_ticks, show: true, axisLabel: 'Fecha'},
-                yaxis: {show: true, axisLabel: 'Numero de informados', tickDecimals: 0},
+                xaxis: {ticks: graf_1_ticks, show: true},
+                yaxis: {show: true, tickDecimals: 0},
                 series: {color: "cyan", lines: {show: true}, points: {show: true}}
             });
 
@@ -57,17 +49,74 @@ function loadGraficos() {
             });
 
         // GRAFICO 3
-        let data_graf_3 = responseJSON[2];
-        let graf_3_tipo_1 = [],
+        let data_graf_3 = responseJSON[2]; // [2,vivo,5],[4,vivo,6],[1,muerto,6]
+        //div.innerHTML += data_graf_3; //  2,vivo,5,4,vivo,6,1,muerto,6
+        // Se lee como: 2 vivos en mes 5, 4 vivos en mes 6, 1 muerto en mes 6
+        let graf_3_tipo_vivo = [];
+        let graf_3_tipo_muerto = [];
+        let graf_3_tipo_nose = [];
+        for (let i = 1; i < 13; i++) { //Parto de la base que van a ser 12 ticks, por cada mes
+            graf_3_tipo_vivo.push([i, 0]);
+            graf_3_tipo_muerto.push([i, 0]);
+            graf_3_tipo_nose.push([i, 0]);
+        }
 
 
-    }
+
+        for (let i = 0; i < data_graf_3.length; i++) {
+            let actual = data_graf_3[i];
+            if (actual[1] === "vivo") {
+                let numeroMes = actual[2] - 1;
+                graf_3_tipo_vivo[numeroMes][1] += actual[0];
+            } else if (actual[1] === "muerto") {
+                let numeroMes = actual[2] - 1;
+                graf_3_tipo_muerto[numeroMes][1] += actual[0];
+            } else {
+                let numeroMes = actual[2] - 1;
+                graf_3_tipo_nose[numeroMes][1] += actual[0];
+            }
+        }
+
+        $.plot($("#grafico3"),
+            [{  data: graf_3_tipo_vivo,
+                label: "Vivo",
+                bars: {
+                    show: true,
+                    barWidth: 0.2,
+                    align: "left"
+                }
+            },
+            {
+                data: graf_3_tipo_nose,
+                label: "No Sé",
+                bars: {
+                    show: true,
+                    barWidth: 0.2,
+                    align: "right"
+                }
+            },
+            {
+                data: graf_3_tipo_muerto,
+                label: "Muerto",
+                bars: {
+                    show: true,
+                    barWidth: 0.2,
+                    align: "center"
+                }
+            }
+            ],
+            {
+                legend: {
+                    position: "ne",
+                    show: true
+                },
+            }
+        );
+
+    };
     xhr.onerror = function () {
         alert('Algo falló D:')
     }
-    xhr.send()
+    xhr.send();
 
 }
-// Para agregar los graficos puedo hacer una funcion que recibe el json de la info
-// y para que se imprima el grafico, si no funciona tal como la de arriba, puedo ver si es factible
-// agregarlo a la mala con document.getElementById().innerHTML += grafico

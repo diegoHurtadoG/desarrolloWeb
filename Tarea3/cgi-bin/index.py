@@ -9,7 +9,7 @@ data = hbdb.get_lista_portada()
 print("Content-Type: text/html; charset=utf-8\r\n\r\n")
 utf8stdout = open(1, 'w', encoding='utf-8', closefd=False)
 
-with open('htmls/template.html', 'r', encoding='utf-8') as file:
+with open('htmls/index.html', 'r', encoding='utf-8') as file:
     s = file.read()
 
     strPreTabla = f'''
@@ -55,8 +55,8 @@ with open('htmls/template.html', 'r', encoding='utf-8') as file:
         paths_list = hbdb.get_fotos_portada(d[4])
         buff = ''
         for p in paths_list:
-            p = str(p) # ('./Fotos/Avistamientos/8ecd2d532cb99989ad2c5e857912670.jpg',)
-            p = '.' + p[2:len(p)-3] # ../Fotos/Avistamientos/8ecd2d532cb99989ad2c5e857912670.jpg
+            p = str(p)  # ('./Fotos/Avistamientos/8ecd2d532cb99989ad2c5e857912670.jpg',)
+            p = '.' + p[2:len(p) - 3]  # ../Fotos/Avistamientos/8ecd2d532cb99989ad2c5e857912670.jpg
             buff += '<img src="' + p + '" alt="Foto Avistamiento" width="320" height="240">'
             # CUANDO CAMBIE A ANAKENA AQUI PROBABLEMENTE TIRE PROBLEMAS DE PATH
         row = f'''
@@ -72,5 +72,13 @@ with open('htmls/template.html', 'r', encoding='utf-8') as file:
 
     tabla += '</table>\n</div>'
 
-    print(s.format('Portada Bichometro', strPreTabla + tabla, ''), file=utf8stdout)
-    #Si no funciona por indexError, agregar un .'' en el format como en estadisticas.py
+    mapa = '''
+    <br>
+    <div id="mapid" style="height: 400px;width: 650px;margin:auto;">
+    
+    </div>
+    <div style="width: 100px;height: 100px;"></div>
+    '''
+
+    print(s.format('Portada Bichometro', strPreTabla + tabla + mapa, ''), file=utf8stdout)
+    # Si no funciona por indexError, agregar un .'' en el format como en estadisticas.py

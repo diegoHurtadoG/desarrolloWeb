@@ -351,3 +351,20 @@ class Avistamiento:
         json_str = json.dumps(data_tuple)  # Retorna un str -> '[[3, vivo, 4], [1, insecto, 8]]'
         json_arr = json.loads(json_str)  # Retorna un json_array -> [[3, vivo, 4], [1, insecto, 8]]
         return json_arr  # A este json_arr ya se le pueden aplicar json_arr[i][j]
+
+    # Para mapa
+    def get_info_mapa(self):
+        sql = f"""
+                            SELECT comuna.nombre AS comuna, avistamiento.id AS av_id, detalle_avistamiento.id AS det_id, detalle_avistamiento.dia_hora, detalle_avistamiento.tipo, detalle_avistamiento.estado, foto.ruta_archivo AS path_foto
+                            FROM (((avistamiento 
+                                   INNER JOIN comuna ON avistamiento.comuna_id = comuna.id) 
+                                  INNER JOIN detalle_avistamiento ON avistamiento.id = detalle_avistamiento.avistamiento_id)
+                                  INNER JOIN foto ON detalle_avistamiento.id = foto.detalle_avistamiento_id)
+                            ORDER BY detalle_avistamiento.id ASC
+                    """
+        self.cursor.execute(sql)
+        data_tuple = self.cursor.fetchall()  # Retorna algo del tipo ((row1), (row2))
+            # Las rows son (nombreComuna, id_av, id_detalle, dia_hora, tipo, estado, path_foto)
+        json_str = json.dumps(data_tuple, default=str)  # Retorna un str -> '[[row1], [row2]]'  ####AQUI ESTA EL PROBLEMA QUE ME TIRA EL CMD
+        json_arr = json.loads(json_str)  # Retorna un json_array -> [[row1], [row2]]
+        return json_arr  # A este json_arr ya se le pueden aplicar json_arr[i][j]
